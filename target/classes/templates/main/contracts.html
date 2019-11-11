@@ -1,0 +1,71 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Contracts</h1>
+			</div>
+			
+			<div id="contentMain">
+				<div id="actionButtonMain">
+					<div style="float: right;">
+						<a id="a" th:href="@{/add/contract}">ADD NEW CONTRACT</a>
+					</div>
+				</div>
+				<table id="customers">
+				  <tr>
+					<th>Name (EDIT)</th>
+					<th>Status</th>
+					<th>Customer</th>
+					<th>Receive pipes</th>
+					<th>Inventory in stock</th>
+					<th>Shipping Order</th>
+					<th>Cutting Order</th>
+					<th>Other Order</th>
+					<th>Documents</th>
+				  </tr>
+				  <tr th:each="item, iItem : ${page.content}">
+						<td>
+							<span th:text="${item.name}"></span>
+							<a sec:authorize="hasAuthority('MANAGER')" th:href="@{/edit/contract(id=${item.id})}">Edit</a> </td>
+						<td th:text="${item.status}" />
+						<td th:text="${item.customer.name}" />
+										
+						<td>
+							<a th:href="@{/trucks(contractid=${item.id})}">RECEIVE</a> 
+						</td>
+						<td>	
+							<a th:href="@{/contractpipes(contractid=${item.id}, action=list)}">INVENTORY</a> 
+						</td>
+						<td>	
+							<a sec:authorize="hasAuthority('SUPERVISER')" th:href="@{/getshippingpipes(contractid=${item.id}, action=order)}">ORDER</a>
+						</td>
+						<td>	
+							<a sec:authorize="hasAuthority('SUPERVISER')" th:href="@{/getshippingpipes(contractid=${item.id}, action=cutting-order)}">CUT</a>
+						</td>
+						<td>	
+							<a th:href="@{/getshippingpipes(contractid=${item.id}, action=other-order)}">OTHER</a>
+						</td>
+						<td text-align="center">	
+							<a th:href="@{/documents(contractid=${item.id})}">DOCUMENTS</a>
+						</td>
+
+					</tr>
+				 
+				</table>
+				
+				<div id="paginationMain">
+					<div class="center">
+					  <div class="pagination" th:each="pageNumber : ${pageNumbers}">
+						  <a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'"
+						th:href="@{/contracts(size=${page.size}, page=${pageNumber})}"
+						th:text="${pageNumber}"> </a>
+					  </div>
+					</div>
+				</div>
+			</div>
+			<div id="fotterMain" style="display: none;"></div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,54 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Specify sizes</h1>
+			</div>
+			
+			<div id="contentMain">
+				<h1 align="center" style="color: red; margin-top: 10px; margin-bottom: 10px;">Please bear in mind the max length is <span th:text="${max}" /></h1>
+				<hr />
+					<h1 align="center" style="color: red; margin-top: 10px; margin-bottom: 10px;" th:text=${error}></h1>
+				<hr />
+				<form autocomplete="off" action="#" th:action="@{/pipe/cutting}" method="post">
+					
+					<input type="hidden" name="documentid" th:value="${documentid}" />
+					<input type="hidden" name="number" th:value="${number}" />
+					<input type="hidden" name="max" th:value="${max}" />
+					<!-- 
+						<table>
+							<th>INPUTS</th>
+							<tr th:each="item, iItem : ${input}">
+								<input type="input" th:name="${item}" />
+							</tr>
+						</table>
+					 -->
+					<div class="row" th:each="item, iItem : ${input}">
+    						<div class="col-25">
+								<label>Specify size for <snap th:text="${item}+1" /></label>
+							</div>
+							<div class="col-75">
+								<input type="text" th:name="${item}" class="form-control" />
+							</div>
+					</div>
+					
+					<div class="row">
+    						<div class="col-25">
+								<label>Notes</label>
+							</div>
+							<div class="col-75">
+								<textarea type="text" placeholder="Notes" name="notes"
+									class="form-control" ></textarea>
+							</div>
+					</div>
+					
+					<div class="row" style="margin-top: 10px;">
+						<input type="submit" value="ADD" />
+					</div>
+				</form>
+			</div>
+		</div>
+</body>
+</html>

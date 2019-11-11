@@ -1,0 +1,51 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Users</h1>
+			</div>
+			
+			<div id="contentMain">
+				<div id="actionButtonMain">
+					<div style="float: right;">
+						<a id="a" th:href="@{/registration}">ADD NEW</a>
+					</div>
+				</div>
+				<table id="customers">
+					<tr>
+						<th>ID (EDIT)</th>
+						<th>Email</th>
+						<th>Last Name</th>
+						<th>First Name</th>
+						<th>Status</th>
+						<th>HOLD</th>
+					</tr>
+					<tr th:each="item, iItem : ${page.content}">
+						<td>
+							<a th:href="@{/edit/user(id=${item.id})}" th:text="${item.id}"></a>
+						<td th:text="${item.email}" />
+						<td th:text="${item.lastName}" />
+						<td th:text="${item.name}" />
+						<td th:text="${item.active}" />
+						<td>
+							<a th:href="@{/users/hold(id=${item.id})}">HOLD/UNHOLD</a>
+						</td>
+					</tr>
+				</table>
+			
+			<!-- 
+			<div class="pagination-wrapper">
+
+				<div class="pagination" th:if="${page.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
+					<a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'" th:href="@{/grades(size=${page.size}, page=${pageNumber})}" th:text="${pageNumber}"></a>
+				</div>
+
+			</div>
+			 -->
+		</div>
+	</div>
+
+</body>
+</html>

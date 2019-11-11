@@ -1,0 +1,65 @@
+<html>
+
+<head th:include="fragment/headerfooter::header1"></head>
+
+	<body class="subpage">
+	
+	<div th:include="fragment/headerfooter::top_menu"></div>
+
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Section -->
+					<section class="wrapper">
+						<div class="inner">
+							<header class="align-center">
+								<h1>Photo</h1>
+								<p><b>Please upload and send the foto for more detailed infomation</b></p>
+								<input type="button" onclick="window.open('http://23.97.133.67:8080/backend/src/us/car.html','_blank')"  value="Generate the 3D model"/>
+							</header>
+							<div class="flex flex-2">
+								<div class="col col2">
+									<h3>Upload</h3>
+									<form  th:action="@{/multipleFileUpload}" method="post" enctype="multipart/form-data">
+									  <input type="file" name="file">
+									  <p></p>
+									  <p></p>
+									  <input type="submit">
+									</form>
+							
+								</div>
+								<div class="col col1 first">
+									<div class="image round fit">
+										<img th:src="@{/images/debeka_logo.png}" alt="" />
+									</div>
+								</div>
+							</div>
+							<p>This process helps the customer to give the data in real time and take a fast response with the places he can repair his car. The data will be sent and saved in the database of Debeka and then in a fully automated way will be sent to the Mechanichers.</p>
+							<p>After the Mechanicher chooses then he can submit the form with the number of days he needs to fix it and the price of it. After this step the data will be sent to user after they are filtered by our Algorithm.</p>
+													</div>
+					</section>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="copyright">
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon fa-snapchat"><span class="label">Snapchat</span></a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script th:src="@{/js/jquery.min.js}"></script>
+			<script th:src="@{/js/jquery.scrolly.min.js}"></script>
+			<script th:src="@{/js/jquery.scrollex.min.js}"></script>
+			<script th:src="@{/js/skel.min.js}"></script>
+			<script th:src="@{/js/util.js}"></script>
+			<script th:src="@{/js/main.js}"></script>
+
+	</body>
+</html>

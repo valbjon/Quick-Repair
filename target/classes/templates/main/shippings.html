@@ -1,0 +1,62 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Prepare Shipping Request</h1>
+			</div>
+			
+			<div id="contentMain">
+							<table id="customers">
+									<tr class="row100 head">
+										<th>Release</th>
+										<th>Status</th>
+										<th>Load Date</th>
+										<th>Note</th>
+										<th>Action</th>
+									</tr>
+									<tr th:each="item, iItem : ${page.content}">
+										<td>
+											<a th:href="@{/edit/pipe(id=${item.id})}"
+											th:text="${item.id}"></a>
+										</td>
+										<td
+											th:text="${item.status}" />
+										<td
+											th:text="${item.start_date}" />
+										<td
+											th:text="${item.note}" />
+										<td>
+											<a th:href="@{/shippingpipes(shippingid=${item.id}, action=list)}"
+											>Pipes</a>
+											<a th:href="@{/trucks(shippingid=${item.id})}"
+											>Loading</a>
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+			<div class="pagination-wrapper">
+
+				<div class="pagination" th:if="${page.totalPages > 0}"
+					th:each="pageNumber : ${pageNumbers}">
+					<a
+						th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'"
+						th:href="@{/branches(size=${page.size}, page=${pageNumber})}"
+						th:text="${pageNumber}"></a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

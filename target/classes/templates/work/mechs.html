@@ -1,0 +1,58 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Grades</h1>
+			</div>
+			
+			<div id="contentMain">
+				<div id="actionButtonMain">
+					<div style="float: right;">
+						<a id="a" th:href="@{/add/grade}">ADD NEW</a>
+					</div>
+				</div>
+				<table id="customers">
+					<tr>
+						<th>Code (EDIT)</th>
+						<th>Name</th>
+						<th>Short Name</th>
+						<th>description</th>
+						<th>DELETE</th>
+					</tr>
+					<tr th:each="item, iItem : ${page.content}">
+						<td>
+							<a th:href="@{/edit/grade(id=${item.id})}" th:text="${item.code}"></a>
+						<td th:text="${item.name}" />
+						<td th:text="${item.shortname}" />
+						<td th:text="${item.description}" />
+						<td>
+							<a th:href="@{/delete/grade(gradeid=${item.id})}">DELETE</a>
+						</td>
+					</tr>
+				</table>
+				<div id="paginationMain">
+					<div class="center">
+					  <div class="pagination" th:each="pageNumber : ${pageNumbers}">
+						  <a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'"
+						th:href="@{/grades(size=${page.size}, page=${pageNumber})}"
+						th:text="${pageNumber}"> </a>
+					  </div>
+					</div>
+			</div>
+			
+			<!-- 
+			<div class="pagination-wrapper">
+
+				<div class="pagination" th:if="${page.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
+					<a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'" th:href="@{/grades(size=${page.size}, page=${pageNumber})}" th:text="${pageNumber}"></a>
+				</div>
+
+			</div>
+			 -->
+		</div>
+	</div>
+
+</body>
+</html>

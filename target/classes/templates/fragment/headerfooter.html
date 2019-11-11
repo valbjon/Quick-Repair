@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head th:fragment="header1">
+		<title>Quick Repair</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet"  href="main.css" th:href="@{/css/main.css}"/>
+</head>
+
+<div th:fragment="top_menu" >
+			<header id="header" class="alt">
+				<a href="#menu">Menu</a>
+			</header>
+			<!-- Nav -->
+			<nav id="menu">
+				<ul class="links">
+					<li sec:authorize="hasAuthority('CUSTOMER')"><a th:href="@{/add/request/repair}">Home</a></li>
+					<li sec:authorize="hasAuthority('MECHANICHER')"><a th:href="@{/machanic/requests}">Home</a></li>
+					<li>
+						<a sec:authorize="hasAuthority('CUSTOMER')" th:href="@{/repair/requests}">Applications</a>
+					</li>
+					<li>
+						<a sec:authorize="hasAuthority('CUSTOMER')" th:href="@{/notifications}">Notifications</a>
+					</li>
+					
+					<!-- THE MECHANICER -->
+					<li sec:authorize="hasAuthority('MECHANICHER')"><a th:href="@{/machanic/requests/accepted/true/}">Accepted Applications</a></li>
+				
+					<li>
+						<a th:href="@{/logout}">Sign Out</a>
+					</li>
+				</ul>
+			</nav>
+			
+</div>
+
+
+<div th:fragment="footer">
+	<div class="row">
+		<div class="col-xs-12 blue_class">
+			<footer>
+				<center>
+					<p>7-24 IT Ltd 2017</p>
+				</center>
+			</footer>
+		</div>
+	</div>
+	<script src=""></script>
+</div>
+
+
+
+
+
+</body>
+</html>

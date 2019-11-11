@@ -1,0 +1,371 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Add new Pipe</h1>
+			</div>
+			
+			<div id="contentMain">
+			<a th:href="@{/contracts}">Cancel </a>
+			
+			<script>
+
+				function myFunction(ele) {
+				  var od = document.getElementById("od");
+				  var wt = document.getElementById("wt");
+				  var len = document.getElementById("length");
+				  var pt = document.getElementById("pipetype");
+				  var text= pt.options[pt.selectedIndex].text;
+				  
+				  var i = document.getElementById("inventory");
+				  var i2 = document.getElementById("inventory2");
+				  var data = od.value+wt.value+len.value+text;
+				  data = data.replace(/ /g, '');
+				  i.value = data;
+				  i2.value = data;
+				  //-------------------CALCULATE WEIGHT--------
+				  
+				  //alert(text);
+				  
+				  if(text.toLowerCase().includes("pipe")){
+					  var d = document.getElementById("diameter"); 
+					  var qn = document.getElementById("qn");
+					  if(qn.value.length > 0 && len.value.length > 0 && wt.value.length > 0 && od.value.length > 0){
+						  var weight = document.getElementById("weight");
+						  var weight2 = document.getElementById("weight2");
+						  weight.disabled = true;
+						  var unit = document.getElementById("unit");
+						  var multiple = 1;
+						  if(unit.value.includes("meters")){
+							  multiple = 0.3048;
+						  }
+						  var data = (od.value-wt.value)*10.69*wt.value*len.value*qn.value*multiple;
+						  weight.value = data;
+						  weight2.value = data;
+					  } 
+				  }  
+				  else if(text.toLowerCase().includes("h-pile")){
+					  var qn = document.getElementById("qn");
+					  if(qn.value.length > 0 && len.value.length > 0 && wt.value.length > 0){
+						  var weight = document.getElementById("weight");
+						  weight.disabled = true;
+						  var unit = document.getElementById("unit");
+						  var multiple = 1;
+						  if(unit.value.includes("meters")){
+							  multiple = 3.2808;
+						  }
+						  var data = wt.value*len.value*qn.value*multiple;
+						  weight.value = data;
+						  weight2.value = data;
+					  }
+				  }
+				  else{
+					  var weight = document.getElementById("weight");
+					  weight.disabled = false;
+				  }
+				  //-------------------------------------------
+				}
+			</script>
+			
+				<form autocomplete="off" action="#" th:action="@{/add/pipe}"
+					th:object="${pipe}" method="post" class="form-horizontal"
+					role="form">
+					<input type="hidden" name="contractid" th:value="${contractid}" />
+					<input type="hidden" name="truckid" th:value="${truckid}" />
+					<input type="hidden" name="documentid" th:value="${documentid}" />
+					<input type="hidden" name="extra" th:value="${extra}" />
+					<input type="hidden" name="inventory2" id="inventory2"  />
+					<input type="hidden" name="weight2" id="weight2"  />
+					
+					 <div class="row">
+    						<div class="col-25">
+								<label>Inventory code</label>
+							</div>
+							<div class="col-25">
+								<label
+									th:if="${#fields.hasErrors('inventory')}"
+									th:errors="*{inventory}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input id="inventory" type="text" th:field="*{inventory}" placeholder="Inventory Code"
+								class="form-control" disabled />
+							</div>
+					</div>
+
+					<div class="row">
+    						<div class="col-25">
+								<label>OD</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('od')}"
+									th:errors="*{od}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" id="od" th:field="*{od}" placeholder="OD"
+								class="form-control" onchange="myFunction(this)" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Wall Thickness</label>
+							</div>
+							<div class="col-25">
+								<label	th:if="${#fields.hasErrors('wt')}" th:errors="*{wt}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" id="wt"
+									th:field="*{wt}" placeholder="Wall Thickness"
+									class="form-control" onchange="myFunction(this)" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Description</label>
+							</div>
+							<div class="col-25"> 
+								<label	th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input
+									type="text" th:field="*{description}" placeholder="Description"
+									class="form-control" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Weight</label>
+							</div>
+    						<div class="col-25">
+								<label	th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}"
+									class="validation-message">
+								</label>
+							</div>
+    						<div class="col-75">
+								<input type="text" id="weight"
+									th:field="*{weight}" placeholder="weight" class="form-control" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Length</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('length')}"
+									th:errors="*{length}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input id="length"
+									type="text" th:field="*{length}" placeholder="Feet"
+									class="form-control" onchange="myFunction(this)"/>
+							</div>
+					</div>
+
+					<div class="row">
+    						<div class="col-25">
+								<label>Unit</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('unit')}"
+									th:errors="*{unit}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<select	id="unit" th:field="*{unit}" onchange="myFunction(this)">
+									<!-- <option value="each" th:selected="${'each' == pipe.unit}">Each</option>
+									 -->
+									<option value="feet" th:selected="${'feet' == pipe.unit}">Feet</option>
+									<option value="meters" th:selected="${'meters' == pipe.unit}">Meters</option>
+								</select>
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Inventory Type</label> 
+							</div>
+							<div class="col-25">
+								<label
+									th:if="${#fields.hasErrors('inventorytype')}" th:errors="*{inventorytype}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75"> 
+								<select id="pipetype"
+									th:field="*{inventorytype}" onchange="myFunction(this)">
+									<option th:each="item : ${pipetypes}" th:value="${item.id}"
+										th:text="${item.name}"
+										th:selected="${item.id == pipe.inventorytype.id}"></option>
+								</select>
+							</div>
+					</div>
+
+					<div class="row">
+    						<div class="col-25">
+								<label>Grade</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('grade')}"
+									th:errors="*{grade}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75"> 
+								<select	id="grade" th:field="*{grade}">
+									<option th:each="item : ${grades}" th:value="${item.id}"
+										th:text="${item.name}" 
+										th:selected="${item.id == pipe.grade.id}"></option>
+								</select>
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Location</label>
+							</div>
+							<div class="col-25">
+								<label
+									th:if="${#fields.hasErrors('location')}" th:errors="*{location}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75"> 
+								<select id="location"
+									th:field="*{location}">
+									<option th:each="item : ${locations}" th:value="${item.id}"
+										th:text="${item.name}"
+										th:selected="${item.id == pipe.location.id}"></option>
+								</select>
+							</div>
+					</div>
+
+					<div class="row">
+    						<div class="col-25">
+								<label>Status</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('status')}" th:errors="*{status}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+							<label><h2>Unload</h2></label>
+								<!--  <select id="status"
+									th:field="*{status}">
+									<option value="onstock" th:selected="${'onstock' == pipe.unit}">OnStock</option>
+									<option value="ontruck" th:selected="${'ontruck' == pipe.unit}">OnTruck</option>
+								</select>-->
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Finish</label>
+							</div>
+							<div class="col-25">
+								<label
+									th:if="${#fields.hasErrors('finish')}" th:errors="*{finish}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" th:field="*{finish}" placeholder="Finish" class="form-control" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>End</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('end')}"
+									th:errors="*{end}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" th:field="*{end}" placeholder="end"
+									class="form-control" />
+							</div>
+					</div>
+					
+					<div class="row">
+    						<div class="col-25">
+								<label>Diameter</label>
+							</div>
+							<div class="col-25">
+								<label	th:if="${#fields.hasErrors('diameter')}" th:errors="*{diameter}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" id="diameter" onchange="myFunction(this)"
+									th:field="*{diameter}" placeholder="Diameter"
+									class="form-control"  disabled/>
+							</div>
+					</div>
+					
+					<div class="row">
+    						<div class="col-25">
+								<label>Quantity</label>
+							</div>
+							<div class="col-25">
+								<label	th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" id="qn" onchange="myFunction(this)"
+									th:field="*{quantity}" placeholder="Quantity"
+									class="form-control" />
+							</div>
+					</div>
+
+					<div class="row">
+    						<div class="col-25">
+								<label>Notes</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('notes')}"
+									th:errors="*{notes}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<textarea	type="text" th:field="*{notes}" placeholder="Notes"
+									class="form-control" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>To Add more pipes select the checkbox</label>
+							</div>
+							<div class="col-75">
+								<input type="checkbox" style="width: 25px; height: 25px;" name="addmore" value="addmore" id="addmore" checked="checked"
+									class="form-control" />
+							</div>
+					</div>
+					<div class="row">
+							<input type="submit" value="ADD" />
+					</div>
+					<h2>
+						<span class="text-success" th:utext="${successMessage}"></span>
+					</h2>
+				</form>
+			</div>
+		</div>
+		<script>
+		setDisabled();
+		
+		function setDisabled(){
+			var pt = document.getElementById("pipetype");
+			var text= pt.options[0].text;
+			if(text.toLowerCase().includes("pipe") || text.toLowerCase().includes("h-pile")){
+				var weight = document.getElementById("weight");
+				weight.disabled = true;
+			}
+		}
+		</script>
+</body>
+</html>

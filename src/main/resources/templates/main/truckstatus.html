@@ -1,0 +1,50 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Truck Status</h1>
+			</div>
+			<div id="contentMain">
+				<table id="customers">
+					<tr>
+						<th>ID</th>
+						<th>Truck Number</th>
+						<th>Truck Company Name</th>
+						<th>Status</th>
+						<th>Start time</th>
+						<th>Customer Name</th>
+						<th>Notes</th>
+						<th>CONTENT</th>
+						<th>LEAVING</th>
+					</tr>
+					<tr th:each="item, iItem : ${page.content}">
+						<td th:text="${item.id}"/>
+						<td th:text="${item.truck.number}" />
+						<td th:text="${item.truck.truckCompanyName}" />
+						<td th:text="${item.status}"/>
+						<td th:text="${item.createDateTime}"/>
+						<td th:text="${item.contract.name}"/>
+						<td th:text="${item.note}"/>
+						<td>
+							<a target="_blank" th:href="@{/documents/generate/now(id=${item.id})}">VIEW</a>
+						</td>
+						<td>
+							<a th:href="@{/truckts/inside/now/finish(id=${item.id})}">OVER</a>
+						</td>
+					</tr>
+				</table>
+				<div id="paginationMain">
+					<div class="center">
+					  <div class="pagination" th:each="pageNumber : ${pageNumbers}">
+						  <a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'"
+						th:href="@{/truckts/inside/now(size=${page.size}, page=${pageNumber})}"
+						th:text="${pageNumber}"> </a>
+					  </div>
+					</div>
+				</div>		
+		</div>
+	</div>
+</body>
+</html>

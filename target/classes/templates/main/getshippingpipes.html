@@ -1,0 +1,93 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1 th:if="${action == 'cutting-order'}">Cutting Order for <span th:text="${customer.name}" /></h1>
+				<h1 th:if="${action == 'order'}">Shipping Order for <span th:text="${customer.name}" /></h1>
+				<h1 th:if="${action == 'other-order'}">Other Order for <span th:text="${customer.name}" /></h1>
+			</div>
+			
+			<div id="contentMain">
+			<form th:action="@{/add/shippingpipe}" method="post" role="form">
+			<div th:if="${shippingid != '0'}">
+				<input type="hidden" id="shippingid" name="shippingid" th:value="${shippingid}" />
+				<input type="hidden" name="contractid" th:value="${contractid}" />
+				<input type="hidden" name="action" th:value=${action} />
+			</div>
+			<table id="customers">
+				<tr>
+						<th>Id</th>
+						<th>CONTRACT</th>
+						<th>Inventory</th>
+						<th>Status</th>
+						<th>Od</th>
+						<th>Wt</th>
+						<th>Weight</th>
+						<th>Length</th>
+						<th>Bl</th>
+						<th>Finish</th>
+						<th>End</th>
+						<th>Unit</th>
+						<th>Grade</th>
+						<th>Inventory Type</th>
+						<th>Location</th>
+						<th>Quantity</th>
+					
+					
+					<th>Number of tubes</th>
+					<th th:if="${action == 'cutting-order'}">Number of pieces</th>
+				</tr>
+				<tr th:each="item, iItem : ${page.content}">
+					<td th:text="${item.id}" />
+					<td th:text="${item.contract.name}" />
+						<td th:text="${item.inventory}" />
+						<td th:text="${item.status}" />
+						<td th:text="${item.od}" />
+						<td th:text="${item.wt}" />
+						<td th:text="${item.weight*item.quantity}" />
+						<td th:text="${item.length}" />
+						<td th:text="${item.bl}" />
+						<td th:text="${item.finish}" />
+						<td th:text="${item.end}" />
+						<td th:text="${item.unit}" />
+						<td th:text="${item.grade.name}" />
+						<td th:text="${item.inventorytype.name}" />
+						<td th:text="${item.location.code}" />
+						<td th:text="${item.quantity}" />
+					
+					
+					
+					<td>
+						<input type="text" pattern="^[1-9]\d*$" 
+							    th:id="${item.id}" th:name="${item.id}" maxlength="4"
+								size="4" style="width: 100%;" />
+					</td>
+					<td th:if="${action == 'cutting-order'}">
+						<input type="text" pattern="^[1-9]\d*$"  th:name="cuttingSizeQuantity+${item.id}" maxlength="4"
+								size="4" style="width: 100%;" />
+					</td>
+				</tr>
+			</table>
+			<div id="actionButtonMain">
+					<div style="float: right; margin-top: 20px;">
+						<button type="submit" class="button button1">APPLY</button>
+					</div>
+				</div>
+			</form>
+			
+			<div id="paginationMain">
+					<div class="center">
+					  <div class="pagination" th:each="pageNumber : ${pageNumbers}">
+						  <a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'"
+						th:href="@{/getshippingpipes(size=${page.size}, page=${pageNumber}, contractid = ${contractid}, action=${action})}"
+						th:text="${pageNumber}"> </a>
+						
+					  </div>
+					</div>
+			</div>					
+			</div>
+		</div>
+</body>
+</html>

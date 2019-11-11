@@ -1,0 +1,59 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Add New Truck</h1>
+			</div>
+			
+			<div id="contentMain">
+				<form autocomplete="off" action="#" th:action="@{/add/truck}"
+					th:object="${truck}" method="post" class="form-horizontal"
+					role="form">
+					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:value="${contractid}" name="contractid" />
+					<input type="hidden" th:value="${documentid}" name="documentid" />
+					 <div class="row">
+					    <div class="col-25">
+					      <label for="fname">Truck Company Name</label>
+					    </div>
+					    <div class="col-75">
+					      <input type="text"
+								th:field="*{truckCompanyName}" placeholder="Truck Company Name" class="form-control" />
+					    </div>
+  					 </div>
+  					 <div class="row">
+					    <div class="col-25">
+					      <label for="fname">Company Number</label>
+					    </div>
+					    <div class="col-75">
+					      <input
+								type="text" th:field="*{companyNumber}" placeholder="Company Number"
+								class="form-control" />
+					    </div>
+  					 </div>
+  					 <div class="row">
+					    <div class="col-25">
+					      <label for="fname">Truck Number</label>
+					    </div>
+					    <div class="col-75">
+					      <input type="text" th:field="*{number}" placeholder="Plate Number"
+								class="form-control" /> <label
+								th:if="${#fields.hasErrors('number')}" th:errors="*{number}"
+								class="validation-message"></label>
+					    </div>
+  					 </div>
+  					 <div class="row">
+   						  <input type="submit" value="Submit">
+  					 </div>
+					
+					<h2>
+						<span class="text-success" th:utext="${successMessage}"></span>
+					</h2>
+
+				</form>
+			</div>
+		</div>
+</body>
+</html>

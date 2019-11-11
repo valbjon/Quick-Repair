@@ -1,0 +1,40 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Add New Broken Part </h1>
+			</div>
+			
+			<div id="contentMain">
+				<form autocomplete="off" action="#" th:action="@{/add/broken}"
+					th:object="${broken}" method="post" class="form-horizontal"
+					role="form">
+					<input type="hidden" th:field="*{id}" />
+					<div class="row">
+    						<div class="col-25">
+								<label>Name of the part</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+									class="validation-message">
+								</label>
+							</div>
+							<div class="col-75"> 
+								<input type="text" th:field="*{name}" placeholder="Name" class="form-control" />
+							</div>
+					</div>
+					
+					<div class="row">
+							<input type="submit"  value="ADD"/>
+					</div>
+
+					<h2>
+						<span class="text-success" th:utext="${successMessage}"></span>
+					</h2>
+				</form>
+			</div>
+		</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Add New Contract Form</h1>
+			</div>
+			
+			<div id="contentMain">
+				<form autocomplete="off" action="#" th:action="@{/add/contract}"
+					th:object="${contract}" method="post" class="form-horizontal"
+					role="form">
+					<input type="hidden" th:field="*{id}"/>
+					<input type="hidden" th:value="${customeredit}" name="customeredit" />
+					 <div class="row">
+    						<div class="col-25">
+								<label>Name</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+										class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text"	th:field="*{name}" placeholder="Name Number" class="form-control" />
+							</div>
+					</div>
+
+					<div class="row">
+    						<div class="col-25">
+								<label>Status</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('status')}"
+										th:errors="*{status}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input	type="text" th:field="*{status}" placeholder="Status"
+										class="form-control" />
+							</div>
+					</div>
+					<div class="row">
+    						<div class="col-25">
+								<label>Note</label>
+							</div>
+							<div class="col-25">
+								<label	th:if="${#fields.hasErrors('note')}" th:errors="*{note}"
+										class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<input type="text" th:field="*{note}" placeholder="Note"
+									class="form-control" />
+							</div> 
+					</div>
+					
+					<div class="row" th:if="${edit != 'true'}">
+    						<div class="col-25">
+								<label>Customer</label>
+							</div>
+							<div class="col-25">
+								<label th:if="${#fields.hasErrors('customer')}"
+									th:errors="*{customer}" class="validation-message">
+								</label>
+							</div>
+							<div class="col-75">
+								<select	id="customer" th:if="${edit != 'true'}" th:field="*{customer}">
+									<option th:each="item : ${customers}"
+										th:value="${item.id}" th:text="${item.name}"  th:selected="${item.id == contract.customer.id}"></option>
+								</select>
+							</div>
+					</div>
+					
+					<div class="row">
+							<input type="submit" style="margin-top: 10px;" value="ADD" />
+					</div>
+
+					<h2>
+						<span class="text-success" th:utext="${successMessage}"></span>
+					</h2>
+				</form>
+			</div>
+		</div>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1 th:if="${action == 'other'}">Prepare Other Order</h1>
+				<h1 th:if="${action == 'cutting'}">Prepare Cutting Order</h1>
+				<h1 th:if="${action == 'order'}">Outstanding Shipping Orders</h1>
+				<!-- 
+					<h1 th:if="${cutting == null and view == null}">Prepare Shipping Request</h1>
+					<h1 th:if="${cutting != null}">Prepare Cutting Request</h1>
+					<h1 th:if="${view != null}">Documents of the Contract</h1>
+				 -->
+			</div>
+			
+			<div id="contentMain">
+				<script>
+				function confirmUser(e){
+					alert("Hello world -- "+e);
+				    var ask=confirm("Are you sure");
+				    if(ask){
+				      window.location="/documents/accept?id="+e;
+				     }
+				 }
+				</script>
+			<table id="customers">
+				<tr>
+					<th>ID</th>
+					
+					<th>Status</th>
+					<th>Contract name</th>
+					<th>Customer name</th>
+					
+					<th>Truck-Number</th>
+					<th>Date</th>
+					<th>View</th>
+					<th th:if="${action == 'order'}">Select Truck</th>
+					<th th:if="${view == null}">Accept</th>
+					<th th:if="${view == null}">CANCEL</th>
+					
+					<!--  
+						<th th:if="${cutting == null and view == null}">Select Truck</th>
+						<th th:if="${view == null}">Accept</th>
+						<th th:if="${view == null}">CANCEL</th>
+					-->
+				</tr>
+				<tr class="row100" th:each="item, iItem : ${page.content}">
+					<td>
+						<a th:text="${item.id}"></a>
+					</td>
+					
+					<td th:text="${item.status}" />
+					<td th:text="${item.contract.name}" />
+					<td th:text="${item.contract.customer.name}" />
+					<td th:text="${item.truck.number}" />
+					<td th:text="${item.createDateTime}"/>
+					<td>
+						<a th:href="@{/documents/generate/now(id=${item.id})}" target="_blank">VIEW</a>
+					</td>
+					<td th:if="${action == 'order'}">
+						<a th:href="@{/request/add/truck(documentid=${item.id})}">SELECT</a>
+					</td>
+					<script th:inline="javascript">
+						/*<![CDATA[*/
+						var message = /*[[${item.id}]]*/;
+						console.log(message);
+						/*]]>*/
+					</script>
+					<td th:if="${view == null}">
+						<a th:if="${action == 'order'}" th:href="@{/documents/accept(id=${item.id})}">ACCEPT</a>
+						<a th:if="${action == 'other'}" th:href="@{/others/accept(id=${item.id})}">COMPLETE</a>
+						<a th:if="${action == 'cutting'}" sec:authorize="hasAuthority('SUPERVISER')" th:href="@{/cutting/request/done(documentid=${item.id})}">COMPLETE</a>
+					</td>
+					<td th:if="${view == null}">
+						<a sec:authorize="hasAuthority('SUPERVISER')" th:href="@{/delete/document(documentid=${item.id},action=${action})}">DELETE ITEM</a>
+					</td>
+				</tr>
+			</table>
+			<div id="paginationMain">
+				<div class="center">
+					  <div class="pagination" th:each="pageNumber : ${pageNumbers}">
+						  <a th:if="${action == 'order'}" th:href="@{/documents/requests(size=${page.size}, page=${pageNumber})}"
+							th:text="${pageNumber}"> </a>
+							<a th:if="${action == 'cutting'}" th:href="@{/cutting/request/documents(size=${page.size}, page=${pageNumber})}"
+							th:text="${pageNumber}"> </a>
+						  <a th:if="${view == 'true'}"  th:href="@{/documents(size=${page.size}, page=${pageNumber}, contractid= ${contractid})}"
+							th:text="${pageNumber}"> </a>
+					  </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

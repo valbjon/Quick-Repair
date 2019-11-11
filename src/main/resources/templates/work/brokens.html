@@ -1,0 +1,30 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Grades</h1>
+			</div>
+			
+			<div id="contentMain">
+				<div id="actionButtonMain">
+					<div style="float: right;">
+						<a id="a" th:href="@{/add/grade}">ADD NEW</a>
+					</div>
+				</div>
+				<table id="customers">
+					<tr>
+						<th>Name</th>
+					</tr>
+					<tr th:each="item, iItem : ${page.content}">
+						<td>
+							<a th:href="@{/edit/broken(id=${item.id})}" th:text="${item.name}"></a>
+						<td>
+					</tr>
+				</table>
+		</div>
+	</div>
+
+</body>
+</html>

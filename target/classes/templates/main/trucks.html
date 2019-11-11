@@ -1,0 +1,63 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>TRUCKS</h1>
+			</div>
+			
+			<div id="contentMain">
+				<div id="actionButtonMain">
+					<div style="float: right;">
+						<a id="a" th:href="@{/add/truck(contractid=${contractid},documentid=${documentid})}">ADD NEW TRACK</a>
+					</div>
+				</div>
+				
+				<table  id="customers">
+					<tr>
+						<th>#</th>
+						<th>Truck Number (EDIT)</th>
+						<th>Truck Company Name</th>
+						<th>Company Number</th>
+						<th>DELETE</th>
+					</tr>
+					<tr th:each="item, iItem : ${page.content}">
+						<td >
+							<div th:if="${contractid != 0}">
+								<a	th:href="@{/add/pipe(contractid=${contractid},truckid=${item.id},documentid=-9999)}">Select</a>
+							</div>
+							<div th:if="${documentid != null and documentid != '-9999' }">
+								<a	th:href="@{/request/add/truck(truckid=${item.id},documentid=${documentid})}">Select</a>
+							</div>
+							<div th:if="${shippingid != 0}">
+								<a	th:href="@{/documentupdate(shippingid=${shippingid},truckid=${item.id},action='loading')}">Select</a>
+							</div>
+						</td>
+						<td>
+							<a th:href="@{/edit/truck(id=${item.id},contractid=${contractid})}"
+							   th:text="${item.number}">
+							</a>
+						</td>
+						<td th:text="${item.truckCompanyName}" />
+						<td th:text="${item.companyNumber}" />
+						<td>
+							<a th:href="@{/delete/truck(truckid=${item.id})}">DELETE</a>
+						</td>
+					</tr>
+				</table>
+				
+				<div id="paginationMain">
+					<div class="center">
+					  <div class="pagination" th:each="pageNumber : ${pageNumbers}">
+						  <a th:class="${pageNumber == (page.number + 1)} ? 'current page-numbers' : 'page-numbers'"
+						th:href="@{/trucks(size=${page.size}, page=${pageNumber}, contractid = ${contractid}, documentid = ${documentid})}"
+						th:text="${pageNumber}"> </a>
+						
+					  </div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

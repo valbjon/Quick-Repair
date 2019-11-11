@@ -1,0 +1,31 @@
+<html>
+<head th:include="fragment/headerfooter::header1"></head>
+	<body onload="startTime()">
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1>Please, specify the task that needs to be done (NOTES)</h1>
+			</div>
+			
+			<div id="contentMain">
+				<form autocomplete="off" action="#" th:action="@{/pipe/other}" method="post">
+					
+					<input type="hidden" name="documentid" th:value="${documentid}" />
+					<div class="row">
+    						<div class="col-25">
+								<label>Notes</label>
+							</div>
+							<div class="col-75">
+								<textarea type="text" placeholder="Notes" name="notes"
+									class="form-control" ></textarea>
+							</div>
+					</div>
+					
+					<div class="row" style="margin-top: 10px;">
+						<input type="submit" value="ADD" />
+					</div>
+				</form>
+			</div>
+		</div>
+</body>
+</html>

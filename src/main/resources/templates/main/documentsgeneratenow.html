@@ -1,0 +1,104 @@
+<html>
+<head th:include="fragment/headerfooter::header1">
+
+</head>
+	<body onload="startTime()">
+		
+		<div id="containerMain">
+			<div th:include="fragment/headerfooter::top_menu"></div>
+			<div id="titleMain">
+				<h1><span th:text="${document_title}"></span></h1>
+			</div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Document ID: <span th:text="${document.id}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Document type: <span th:text="${document.status}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Contract name: <span th:text="${document.contract.name}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Customer Name: <span th:text="${document.contract.customer.name}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Truck Company Name: <span th:text="${document.truck.truckCompanyName}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Truck Number: <span th:text="${document.truck.number}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;"><h1 style="float: left;">Total Weight: <span th:text="${totalWeight}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;" th:if="${etime != null}"><h1><span th:text="${etime}" /></h1></div>
+			<div id="topBar" style="height: auto; background-color: white;" th:if="${ltime != null}"><h1>Truck Departure: <span th:text="${ltime}" /></h1></div>
+			
+			<hr />
+				<div id="topBar" style="height: auto; background-color: white;">
+					<span th:text="${notes}"> </span>
+				</div>
+			<hr />
+			
+			<div id="contentMain">
+				<table id="customers">
+				<tr class="row100 head">
+					<th>Id</th>
+						<th>CONTRACT</th>
+						<th>Od</th>
+						<th>Wt</th>
+						<th>Weight</th>
+						<th>Length</th>
+						<th>Bl</th>
+						<th>Finish</th>
+						<th>End</th>
+						<th>Unit</th>
+						<th>Grade</th>
+						<th>Inventory Type</th>
+						<th>Location</th>
+						<th>Quantity</th>
+				</tr>
+				<tr th:each="item, iItem : ${pipes.content}">
+					<td th:text="${item.id}" />
+					<td th:text="${item.contract.name}" />
+						<td th:text="${item.od}" />
+						<td th:text="${item.wt}" />
+						<td th:text="${item.weight*item.quantity}" />
+						<td th:text="${item.length}" />
+						<td th:text="${item.bl}" />
+						<td th:text="${item.finish}" />
+						<td th:text="${item.end}" />
+						<td th:text="${item.unit}" />
+						<td th:text="${item.grade.name}" />
+						<td th:text="${item.inventorytype.name}" />
+						<td th:text="${item.location.code}" />
+						<td th:text="${item.quantity}" />
+				</tr>
+			</table>
+			<hr />
+				<h1 th:text="${additionalMessage}"></h1>
+			<hr />
+			<script>
+			function print_current_page()
+			{
+				 window.open(window.location.href+"&print=true", "_blank");
+			}
+			</script>
+			
+				<div id="actionButtonMain">
+					<div style="margin-left: 530px;">
+						<button class="button button1" onclick="print_current_page()">PRINT</button>
+					</div>
+				</div>
+			</div>
+			<div id="fotterMain" style="display: none;"></div>
+		</div>
+	</body>
+	<script>
+		var elem = document.getElementById('containerMain');
+		elem.style.width = "1000px";
+		
+		var elem = document.getElementById('topLogoMainRight');
+		elem.style.width = "800px"; 
+	</script>
+	<script>
+			var urlParams = new URLSearchParams(window.location.search);
+			var text = urlParams.get('print');
+			if(text == 'true'){
+				//---------------------------
+				var elem = document.getElementById('actionButtonMain');
+				elem.style.display = "none";
+				elem = document.getElementById('topNavigation');
+				elem.style.display = "none";
+				elem = document.getElementById('welcomeMain');
+				elem.style.display = "none";
+				window.print();
+				//---------------------------
+			}
+		</script>
+</html>

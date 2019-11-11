@@ -1,0 +1,139 @@
+<html>
+
+<head th:include="fragment/headerfooter::header1"></head>
+<body>
+<div th:include="fragment/headerfooter::top_menu"></div>
+
+		<!-- Banner -->
+			<section id="banner">
+				<div class="inner">
+					<header>
+						<h1>Quick Repair</h1>
+						<p>Please Complete the form below<br />This information will be sended to your Insurance Company</p>
+					</header>
+					<a href="#main" class="button big scrolly">Create Form</a>
+				</div>
+			</section>
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Section -->
+					<section class="wrapper style1">
+						<div class="inner">
+							<!-- 2 Columns -->
+								<div class="flex flex-2">
+									<div class="col col1">
+										<div class="image round fit">	
+											<img th:src="@{/images/debeka_logo.png}" alt="" />
+										</div>
+											
+									</div>
+																			<h3>Form</h3>
+
+										<form autocomplete="off" action="#" th:action="@{/add/fastrepair/request}"
+												 method="post" class="form-horizontal"
+												role="form">
+												
+												<input type="hidden"  id="long" name="long" />
+												<input type="hidden" id="lat" name="lat" />	
+												
+												<input type="hidden" name="id" th:value="${id}" />
+												
+												
+											<div class="row uniform">
+												<div class="6u 12u$(xsmall)">
+													Location for repair:
+													<input type="text" name="location" id="name" value="" placeholder="Location" />
+													<p></p>
+													<ul class="actions">
+														<li>
+															<input type="button"  class="button special" value="Allow location" onclick="getLocation();">
+														</li>
+													</ul>
+												</div>
+												<!-- Break -->
+												<div class="12u$">
+													<div class="select-wrapper">
+													Select your broken part:
+														<select id="category" name="broken">
+															<option value="Front door">Front door</option>
+															<option value="Manufacturing">Back door</option>
+															<option value="Shipping">Front window</option>
+															<option value="Administration">Back window</option>
+															<option value="Human Resources">Tyres</option>
+														</select>
+													</div>
+												</div>
+												<!-- Break -->
+												<div class="4u 12u$(small)">
+													<input type="radio" id="priority-low" name="priority1">
+													<label for="priority-low">High Priority</label>
+												</div>
+												<div class="4u 12u$(small)">
+													<input type="radio" id="priority-normal" name="priority2">
+													<label for="priority-normal">Normal Priority</label>
+												</div>
+												<div class="4u$ 12u$(small)">
+													<input type="radio" id="priority-high"  name="priority3">
+													<label for="priority-high">Low Priority</label>
+												</div>
+												<!-- Break -->
+												<div class="6u 12u$(small)">
+													<b>Require a car</b>
+												</div>
+												<div class="6u$ 12u$(small)">
+													<input type="checkbox" id="human" name="car" >
+													<label for="human">Yes</label>
+												</div>
+												<!-- Break -->
+												<div class="12u$">
+													<textarea name="message" id="message" placeholder="Enter your Description" rows="6"></textarea>
+												</div>
+												<!-- Break -->
+												<div class="12u$">
+													<ul class="actions">
+														<li>
+															<input type="submit" value="Send Form" />
+														</li>
+													</ul>
+												</div>
+											</div>
+										</form>
+								</div>
+						</div>
+					</section>
+
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="copyright">
+					<ul class="icons">
+						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon fa-snapchat"><span class="label">Snapchat</span></a></li>
+					</ul>
+					<p>&copy; Untitled. All rights reserved. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.</p>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script th:src="@{/js/jquery.min.js}"></script>
+			<script th:src="@{/js/jquery.scrolly.min.js}"></script>
+			<script th:src="@{/js/jquery.scrollex.min.js}"></script>
+			<script th:src="@{/js/skel.min.js}"></script>
+			<script th:src="@{/js/util.js}"></script>
+			<script th:src="@{/js/main.js}"></script>
+			<script type="text/javascript">
+			function getLocation() {
+				  if (navigator.geolocation) {
+				    navigator.geolocation.getCurrentPosition(function(position) {
+					document.getElementById("lat").value = position.coords.latitude;
+					document.getElementById("long").value = position.coords.longitude;
+					});
+				  }
+			}
+			</script>
+
+	</body>
+</html>
